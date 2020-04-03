@@ -1,0 +1,84 @@
+spring:
+  profiles:
+    active: "dev"
+  resources:
+    static-locations: classpath:/static/
+  security:
+    oauth2:
+      client:
+        registration:
+          keycloak:
+            client-id: KEYCLOAK-CLIENT-ID
+            client-secret: KEYCLOAK-CLIENT-SECRET
+            clientName: KEYCLOAK-CLIENT-NAME
+            authorization-grant-type: authorization_code
+            redirectUriTemplate: '{baseUrl}/login/oauth2/code/{registrationId}'
+            scope:
+              - openid
+              - roles
+        provider:
+          keycloak:
+            authorization-uri: https://KEYCLOAK-URL/auth/realms/demo/protocol/openid-connect/auth
+            token-uri: https://KEYCLOAK-URL/auth/realms/demo/protocol/openid-connect/token
+            user-info-uri: https://KEYCLOAK-URL/auth/realms/demo/protocol/openid-connect/userinfo
+            jwk-set-uri: https://KEYCLOAK-URL/auth/realms/demo/protocol/openid-connect/certs
+            user-name-attribute: preferred_username
+
+server:
+  port: 8088
+  servlet:
+    context-path: /
+
+keycloak:
+  auth-server-url : 'https://KEYCLOAK-URL/auth'
+  realm: 'KEYCLOAK-REALM'
+  realm-key: 'MIIBI... KEYCLOAK-RSA-KEY'
+  resource: 'KEYCLOAK-CLIENT-ID'
+  credentials:
+    secret: 'KEYCLOAK-CLIENT-SECRET'
+  securityConstraints:
+    - authRoles: [ '*' ]
+      securityCollections:
+        - name: authed
+          description: 'Secured resources are kept here'
+          patterns: [ '/*' ]
+
+---
+spring:
+  profiles: dev
+  security:
+    require-ssl: true
+
+settings:
+  openvpnKeysPath: '/home/user/devel/java/tmp/'
+  openvpnConfigPath: './conf/'
+  openVpnBinary: '/usr/sbin/openvpn'
+
+logging:
+  level:
+    root: INFO
+    org.springframework.web: INFO
+    org.springframework.security: INFO
+
+server:
+  ssl:
+    key-store: "classpath:keystore/localhost.jks"
+    key-store-password: "1234567890"
+    keyStoreType: "JKS"
+    trust-store: 'classpath:keystore/keystore.jks'
+    trust-store-password: '1234567890'
+
+---
+spring:
+  profiles: prod
+
+settings:
+  openvpnKeysPath: '/openvpn/data'
+  openvpnConfigPath: '/openvpn/data'
+  openVpnBinary: '/usr/sbin/openvpn'
+
+logging:
+  level:
+    root: INFO
+    org.springframework.web: INFO
+    org.springframework.security: INFO

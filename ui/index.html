@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>OpenVPN Web UI</title>
+
+    <link rel="stylesheet" type="text/css" href="./css/bootstrap4.min.css">
+    <link rel="stylesheet" type="text/css" href="./css/jquery.dataTables.css"/>
+    <link rel="stylesheet" type="text/css" href="./css/dataTables.bootstrap4.min.css"/>
+    <link rel="stylesheet" type="text/css" href="./css/style.css">
+
+    <script src="./jslib/jquery-3.4.1.min.js"></script>
+    <script src="./jslib/jquery.dataTables.js"></script>
+    <script src="./jslib/dataTables.bootstrap4.min.js"></script>
+
+    <script src="./jslib/popper.min.js"></script>
+    <script src="./jslib/bootstrap.min.js"></script>
+
+    <script src="./jslib/angular.min.js"></script>
+    <script src="./jslib/angular-route.js"></script>
+    <script src="./jslib/scrollglue.js"></script>
+
+    <script src="./jslib/sockjs.min.js"></script>
+    <script src="./jslib/stomp.min.js"></script>
+
+    <script src="./js/app-utils.js"></script>
+    <script src="./js/app.js"></script>
+    <script src="./js/controller-configs.js"></script>
+    <script src="./js/controller-openedports.js"></script>
+    <script src="./js/controller-caconf.js"></script>
+    <script src="./js/controller-certdefaults.js"></script>
+    <script src="./js/controller-certlist.js"></script>
+    <script src="./js/controller-openvpnsvc.js"></script>
+    <script src="./js/controller-netdev.js"></script>
+</head>
+<body ng-app="openvpn" data-ng-controller="pageRoot">
+    <div class="d-flex align-items-center flex-column justify-content-center h-100 bg-dark text-white"
+         style="padding: 32px 0 32px 0;" ng-show="isDocReady == 0">
+        <h5>Loading...</h5>
+    </div>
+    <div class="d-flex align-items-center flex-column justify-content-center h-100 bg-dark text-white ng-hide"
+         style="padding: 32px 0 32px 0;" ng-show="isDocReady == 1">
+        <h5>We generating the DH and CA. Please, refresh this page later.</h5>
+    </div>
+    <div class="wrapper ng-hide" ng-show="isDocReady == 2">
+        <nav id="sidebar">
+            <div class="sidebar-header tuximage">
+                <h3>OpenVPN</h3>
+            </div>
+            <ul class="list-group list-group-flush components">
+                <li>
+                    <h2>OpenVPN</h2>
+                    <ul class="list-unstyled">
+                        <li><a href="#!">OpenVPN service</a></li>
+                        <li><a href="#!configs">OpenVPN configurations</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <ul class="list-unstyled">
+                        <h2>Certificates</h2>
+                        <li><a href="#!certlist">Certificates list</a></li>
+                        <li><a href="#!certdefaults">Certificate template</a></li>
+                        <li><a href="#!caconf">CA configuration</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <ul class="list-unstyled">
+                        <h2>Statistic</h2>
+                        <li><a href="#!netdev">Networks statistics</a></li>
+                        <li><a href="#!opened-ports">Opened ports</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+
+        <div id="content">
+            <nav class="navbar navbar-expand-lg navbar-dark bg-dark" ng-controller="headerController">
+                <div class="container-fluid">
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        <h2 id="global_header">{{globalHeader}}</h2>
+                        <ul class="nav navbar-nav ml-auto" id="additional-links">
+                            <li class="nav-item active" ng-repeat="link in headerLinks">
+                                <a class="nav-link" href="{{link.url}}" ng-if="link.url != null">{{link.name}}</a>
+                                <a class="nav-link" href="javascript:;" ng-click="link.onclick();" ng-if="link.onclick != null">{{link.name}}</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+
+            <div ng-controller="msgController">
+                <div ng-if="popupVisible" class="alert alert-{{popupType}}" role="alert">{{popupMessage}}</div>
+            </div>
+            <div ng-view></div>
+        </div>
+    </div>
+</body>
+</html>

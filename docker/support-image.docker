@@ -1,0 +1,4 @@
+FROM openjdk:8
+
+RUN apt update && apt install -y openvpn bridge-utils
+RUN mkdir /openvpn && mkdir /openvpn/webui && mkdir /openvpn/data

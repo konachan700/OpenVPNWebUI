@@ -1,0 +1,16 @@
+FROM java-with-openvpn:0.1
+
+EXPOSE 8088
+EXPOSE 443
+
+WORKDIR /openvpn/webui
+COPY start.sh start.sh
+COPY ServerStat-*-exec.jar webui.jar
+
+RUN mkdir -p /dev/net && \
+    mknod /dev/net/tun c 10 200 && \
+    chmod 600 /dev/net/tun
+
+RUN chmod +x start.sh
+
+CMD /openvpn/webui/start.sh
