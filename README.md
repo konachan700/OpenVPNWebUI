@@ -23,5 +23,6 @@ docker run --name keycloak -p 127.0.0.1:8000:8080 -e KEYCLOAK_USER=root -e KEYCL
   - Один нужен для поднятия https на локалхосте. Самоподписанный.
   - Второй содержит сертификаты бесплатного СА letsencrypt, поскольку не везде они есть по-умолчанию. Точнее, они есть в браузерах везде, а вот в хранилище java их может не быть. Сложил в гит, чтобы скачавшему проект не морочить голову с их генерацией.
   
-![1](https://user-images.githubusercontent.com/8249779/78343656-d9a7e700-75a3-11ea-951d-b0143bf59e7a.png)
-![2](https://user-images.githubusercontent.com/8249779/78343661-dad91400-75a3-11ea-8e48-9e5713e9fe95.png)
+![1](https://user-images.githubusercontent.com/8249779/78344119-94d08000-75a4-11ea-855d-1eef0aed22bc.png)
+![2](https://user-images.githubusercontent.com/8249779/78344121-9601ad00-75a4-11ea-914b-7b5f325b7d1f.png)
+
