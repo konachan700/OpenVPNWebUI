@@ -16,6 +16,6 @@ docker rmi "$NAME:$VERSION"
 echo "#### OK"
 echo "#### Building new image and run a container..."
 docker build -t "$NAME:$VERSION" -f ./server-ui.docker ./ && \
-  docker run --cap-add NET_ADMIN --name "$NAME" --net host -v /docker/data/openvpn:/openvpn/data -d "$NAME:$VERSION"
+  docker run --cap-add NET_ADMIN --name "$NAME" --net host -v /docker/data/openvpn:/openvpn/data -v /docker/data/openvpn/config:/config -d "$NAME:$VERSION"
 echo "#### OK"
 exit 0
